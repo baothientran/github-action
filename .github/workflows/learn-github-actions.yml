@@ -28,7 +28,7 @@ jobs: # collection of jobs to run
               run: |
                 git clone --depth 1 --branch 2.4.5 https://github.com/onqtam/doctest.git
                 mkdir doctest-build && cd doctest-build
-                cmake ../doctest -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PATH="./externs/install"
+                cmake ../doctest -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="./externs/install"
 
             - name: cache benchmark
               uses: actions/cache@v2
@@ -45,13 +45,13 @@ jobs: # collection of jobs to run
               run: |
                 git clone --depth 1 --branch v1.5.2 https://github.com/google/benchmark.git
                 mkdir benchmark-build && cd benchmark-build
-                cmake ../benchmark -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_TESTING=OFF -DCMAKE_INSTALL_PATH="./externs/install"
+                cmake ../benchmark -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_TESTING=OFF -DCMAKE_INSTALL_PREFIX="./externs/install"
                 make install
 
             - name: build
               run: |
                 mkdir build && cd build
-                cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PATH="./externs/install"
+                cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="./externs/install"
                 make
 
             - name: test
