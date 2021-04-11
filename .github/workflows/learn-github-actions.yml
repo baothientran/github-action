@@ -52,7 +52,7 @@ jobs: # collection of jobs to run
             - name: build
               run: |
                 mkdir build && cd build
-                cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="./externs/install"
+                cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="~/externs/install"
                 make
 
             - name: test
