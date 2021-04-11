@@ -6,27 +6,44 @@ jobs: # collection of jobs to run
         runs-on: ubuntu-latest # specify virtual machine to run on
         steps:
             - uses: actions/checkout@v2 #  tells the job to retrieve v2 of the community action named actions/checkout@v2.
+
             - uses: lukka/get-cmake@v3.19.2 # tells the jobs to setup cmake
+
             - run: mkdir externs
+
+            - name: cache-doctest
+              id: cache-doctest
+              working-directory: externs
+              uses: actions/cache@v2
+              env:
+                cache-name: cache-doctest-2.4.5
+              with:
+                path: ./doctest-build
+                key: ${{runner.os}}-build-${{env.cache-name}}
+
             - name: install-doctest
               working-directory: externs
+              if: steps.cache-doctest.outputs.cache-hit != 'true'
               run: |
                 git clone --depth 1 --branch 2.4.5 https://github.com/onqtam/doctest.git
-                cd doctest && mkdir build && cd build
-                cmake .. -DCMAKE_BUILD_TYPE=Release
+                mkdir doctest-build && cd doctest-build
+                cmake ../doctest -DCMAKE_BUILD_TYPE=Release
                 sudo make install
+
             - name: install-benchmark
               working-directory: externs
               run: |
                 git clone --depth 1 --branch v1.5.2 https://github.com/google/benchmark.git
-                cd benchmark && mkdir build && cd build
-                cmake .. -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_TESTING=OFF
+                mkdir benchmark-build && cd benchmark-build
+                cmake ../benchmark -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_TESTING=OFF
                 sudo make install
+
             - name: build
               run: |
                 mkdir build && cd build
                 cmake .. -DCMAKE_BUILD_TYPE=Release
                 make
+
             - name: test
               working-directory: build
               run: |
