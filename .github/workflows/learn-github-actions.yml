@@ -13,7 +13,7 @@ jobs: # collection of jobs to run
               run: |
                 git clone --depth 1 --branch 2.4.5 https://github.com/onqtam/doctest.git
                 cd doctest && mkdir build && cd build
-                cmake .. -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_TESTING=OFF
+                cmake .. -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_DOWNLOAD_DEPENDENCIES=ON
                 sudo make install
             - name: install-benchmark
               working-directory: externs
