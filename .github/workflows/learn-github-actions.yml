@@ -11,21 +11,16 @@ jobs: # collection of jobs to run
 
             - run: mkdir externs
 
+            - run: mkdir externs/install
+
             - name: cache doctest
               uses: actions/cache@v2
               id: cache-doctest
               env:
                 cache-name: cache-doctest-2.4.5
               with:
-                path: ./externs/doctest-build
+                path: ./externs/install
                 key: ${{runner.os}}-build-${{env.cache-name}}
-
-            - name: install doctest
-              working-directory: externs
-              if: steps.cache-doctest.outputs.cache-hit == 'true'
-              run: |
-                cd doctest-build
-                make install
 
             - name: build and install doctest
               working-directory: externs
@@ -33,7 +28,7 @@ jobs: # collection of jobs to run
               run: |
                 git clone --depth 1 --branch 2.4.5 https://github.com/onqtam/doctest.git
                 mkdir doctest-build && cd doctest-build
-                cmake ../doctest -DCMAKE_BUILD_TYPE=Release
+                cmake ../doctest -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PATH="./externs/install"
 
             - name: cache benchmark
               uses: actions/cache@v2
@@ -41,15 +36,8 @@ jobs: # collection of jobs to run
               env:
                 cache-name: cache-benchmark-v1.5.2
               with:
-                path: ./externs/benchmark-build
+                path: ./externs/install
                 key: ${{runner.os}}-build-${{env.cache-name}}
-
-            - name: install benchmark
-              working-directory: externs
-              if: steps.cache-benchmark.outputs.cache-hit == 'true'
-              run: |
-                cd benchmark-build
-                make install
 
             - name: build and install benchmark
               working-directory: externs
@@ -57,13 +45,13 @@ jobs: # collection of jobs to run
               run: |
                 git clone --depth 1 --branch v1.5.2 https://github.com/google/benchmark.git
                 mkdir benchmark-build && cd benchmark-build
-                cmake ../benchmark -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_TESTING=OFF
+                cmake ../benchmark -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_TESTING=OFF -DCMAKE_INSTALL_PATH="./externs/install"
                 make install
 
             - name: build
               run: |
                 mkdir build && cd build
-                cmake .. -DCMAKE_BUILD_TYPE=Release
+                cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PATH="./externs/install"
                 make
 
             - name: test
