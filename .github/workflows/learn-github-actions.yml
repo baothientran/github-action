@@ -13,6 +13,12 @@ jobs: # collection of jobs to run
                 cd doctest && mkdir build && cd build
                 cmake .. -DCMAKE_BUILD_TYPE=Release
                 sudo make install
+            - name: install-benchmark
+              run: |
+                git clone --depth 1 --branch v1.5.2 https://github.com/google/benchmark.git
+                cd benchmark && mkdir build && cd build
+                cmake .. -DCMAKE_BUILD_TYPE=Release
+                sudo make install
             - name: build
               run: |
                 mkdir build && cd build
