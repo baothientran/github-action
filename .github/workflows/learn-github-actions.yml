@@ -6,8 +6,8 @@ jobs: # collection of jobs to run
         runs-on: ubuntu-latest # specify virtual machine to run on
         steps:
             - uses: actions/checkout@v2 #  tells the job to retrieve v2 of the community action named actions/checkout@v2.
-            - uses: actions/setup-node@v1 # tells the jobs to setup npm
-            - run: npm install -g bats
-            - run: bats -v
-
+            - uses: lukka/get-cmake@v3.19.2 # tells the jobs to setup cmake
+            - run: mkdir build && cd build
+            - run: cmake .. -DCMAKE_BUILD_TYPE=Release
+            - run: make
 
