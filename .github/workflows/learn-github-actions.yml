@@ -14,9 +14,9 @@ jobs: # collection of jobs to run
             - name: cache-doctest
               id: cache-doctest
               working-directory: externs
-              uses: actions/cache@v2
               env:
                 cache-name: cache-doctest-2.4.5
+              uses: actions/cache@v2
               with:
                 path: ./doctest-build
                 key: ${{runner.os}}-build-${{env.cache-name}}
