@@ -27,5 +27,9 @@ jobs: # collection of jobs to run
                 mkdir build && cd build
                 cmake .. -DCMAKE_BUILD_TYPE=Release
                 make
+            - name: test
+              working-directory: build
+              run: |
+                ./test/test
 
 
