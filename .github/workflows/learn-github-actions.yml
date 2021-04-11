@@ -11,7 +11,7 @@ jobs: # collection of jobs to run
 
             - run: mkdir externs
 
-            - name: cache-doctest
+            - name: cache doctest
               id: cache-doctest
               working-directory: externs
               env:
@@ -21,7 +21,7 @@ jobs: # collection of jobs to run
                 path: ./doctest-build
                 key: ${{runner.os}}-build-${{env.cache-name}}
 
-            - name: install-doctest
+            - name: install doctest
               working-directory: externs
               if: steps.cache-doctest.outputs.cache-hit != 'true'
               run: |
@@ -30,7 +30,7 @@ jobs: # collection of jobs to run
                 cmake ../doctest -DCMAKE_BUILD_TYPE=Release
                 sudo make install
 
-            - name: install-benchmark
+            - name: install benchmark
               working-directory: externs
               run: |
                 git clone --depth 1 --branch v1.5.2 https://github.com/google/benchmark.git
