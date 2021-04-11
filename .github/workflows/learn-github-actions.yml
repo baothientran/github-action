@@ -7,7 +7,10 @@ jobs: # collection of jobs to run
         steps:
             - uses: actions/checkout@v2 #  tells the job to retrieve v2 of the community action named actions/checkout@v2.
             - uses: lukka/get-cmake@v3.19.2 # tells the jobs to setup cmake
-            - run: mkdir build && cd build
-            - run: cmake .. -DCMAKE_BUILD_TYPE=Release
-            - run: make
+            - run: mkdir build
+            - name: run cmake
+              working-directory: ./build
+              run: |
+                cmake .. -DCMAKE_BUILD_TYPE=Release
+                make
 
