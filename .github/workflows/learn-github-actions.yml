@@ -7,13 +7,16 @@ jobs: # collection of jobs to run
         steps:
             - uses: actions/checkout@v2 #  tells the job to retrieve v2 of the community action named actions/checkout@v2.
             - uses: lukka/get-cmake@v3.19.2 # tells the jobs to setup cmake
+            - run: mkdir externs
             - name: install-doctest
+              working-directory: externs
               run: |
                 git clone --depth 1 --branch 2.4.5 https://github.com/onqtam/doctest.git
                 cd doctest && mkdir build && cd build
                 cmake .. -DCMAKE_BUILD_TYPE=Release
                 sudo make install
             - name: install-benchmark
+              working-directory: externs
               run: |
                 git clone --depth 1 --branch v1.5.2 https://github.com/google/benchmark.git
                 cd benchmark && mkdir build && cd build
