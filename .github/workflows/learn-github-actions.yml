@@ -2,14 +2,22 @@ name: learn-github-action
 on: [push] # event to run the workflow
 jobs: # collection of jobs to run
     # job name
-    check-bats-version:
+    build:
         runs-on: ubuntu-latest # specify virtual machine to run on
         steps:
             - uses: actions/checkout@v2 #  tells the job to retrieve v2 of the community action named actions/checkout@v2.
             - uses: lukka/get-cmake@v3.19.2 # tells the jobs to setup cmake
-            - name: run cmake
+            - name: install-doctest:
+              run: |
+                git clone --depth 1 --branch 2.4.5 https://github.com/onqtam/doctest.git
+                mkdir build && cd build
+                cmake .. -DCMAKE_BUILD_TYPE=Release
+                make install
+            - name: build
+              needs: install-doctest
               run: |
                 mkdir build && cd build
                 cmake .. -DCMAKE_BUILD_TYPE=Release
                 make
+
 
