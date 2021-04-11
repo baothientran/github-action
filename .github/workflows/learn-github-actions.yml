@@ -12,7 +12,7 @@ jobs: # collection of jobs to run
                 git clone --depth 1 --branch 2.4.5 https://github.com/onqtam/doctest.git
                 cd doctest && mkdir build && cd build
                 cmake .. -DCMAKE_BUILD_TYPE=Release
-                make install
+                sudo make install
             - name: build
               run: |
                 mkdir build && cd build
