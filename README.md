@@ -1,3 +1,3 @@
-# meshwork 
+# Github Action
 
-A library that implements different mesh simplification algorithms
+Experiment with CI using github action
