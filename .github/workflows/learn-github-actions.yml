@@ -29,6 +29,7 @@ jobs: # collection of jobs to run
                 git clone --depth 1 --branch 2.4.5 https://github.com/onqtam/doctest.git
                 mkdir doctest-build && cd doctest-build
                 cmake ../doctest -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="./externs/install"
+                make install
 
             - name: cache benchmark
               uses: actions/cache@v2
