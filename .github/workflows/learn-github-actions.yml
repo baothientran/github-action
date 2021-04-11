@@ -14,7 +14,6 @@ jobs: # collection of jobs to run
                 cmake .. -DCMAKE_BUILD_TYPE=Release
                 make install
             - name: build
-              needs: install-doctest
               run: |
                 mkdir build && cd build
                 cmake .. -DCMAKE_BUILD_TYPE=Release
