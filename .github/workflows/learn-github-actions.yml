@@ -22,6 +22,13 @@ jobs: # collection of jobs to run
 
             - name: install doctest
               working-directory: externs
+              if: steps.cache-doctest.outputs.cache-hit == 'true'
+              run: |
+                cd doctest-build
+                make install
+
+            - name: build and install doctest
+              working-directory: externs
               if: steps.cache-doctest.outputs.cache-hit != 'true'
               run: |
                 git clone --depth 1 --branch 2.4.5 https://github.com/onqtam/doctest.git
@@ -39,16 +46,24 @@ jobs: # collection of jobs to run
 
             - name: install benchmark
               working-directory: externs
+              if: steps.cache-benchmark.outputs.cache-hit == 'true'
+              run: |
+                cd benchmark-build
+                make install
+
+            - name: build and install benchmark
+              working-directory: externs
               if: steps.cache-benchmark.outputs.cache-hit != 'true'
               run: |
                 git clone --depth 1 --branch v1.5.2 https://github.com/google/benchmark.git
                 mkdir benchmark-build && cd benchmark-build
                 cmake ../benchmark -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_TESTING=OFF
+                make install
 
             - name: build
               run: |
                 mkdir build && cd build
-                cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=./externs
+                cmake .. -DCMAKE_BUILD_TYPE=Release
                 make
 
             - name: test
